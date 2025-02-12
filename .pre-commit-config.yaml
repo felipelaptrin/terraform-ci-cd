@@ -3,8 +3,15 @@ repos:
     rev: v1.97.3
     hooks:
       - id: terraform_fmt
+        args: [--recursive]
+        files: src/
       - id: terraform_checkov
+        files: src/
       - id: terraform_docs
+        files: src/
       - id: terraform_tflint
+        files: src/
       - id: terraform_trivy
+        files: src/
       - id: terraform_validate
+        files: src/
