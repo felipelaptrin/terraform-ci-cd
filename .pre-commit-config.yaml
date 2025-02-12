@@ -7,6 +7,8 @@ repos:
       - id: terraform_fmt
         files: src/
       - id: terraform_checkov
+        args:
+          - --args=--check HIGH
         files: src/
       - id: terraform_docs
         files: src/
