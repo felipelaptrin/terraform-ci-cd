@@ -8,16 +8,12 @@
     "terraform-docs@0.19.0",
     "tflint@0.55.1",
     "trivy@0.59.1",
-    "infracost@0.10.38"
+    "jq@1.7.1"
   ],
   "shell": {
     "init_hook": [
-      "echo 'Welcome to devbox!' > /dev/null"
-    ],
-    "scripts": {
-      "test": [
-        "echo \"Error: no test specified\" && exit 1"
-      ]
-    }
+      "echo 'Installing pre-commit hooks...'",
+      "pre-commit install"
+    ]
   }
 }
