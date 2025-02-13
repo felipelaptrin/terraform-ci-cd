@@ -8,6 +8,8 @@ repos:
         args:
           - --args=--check HIGH
       - id: terraform_docs
+        args:
+          - --hook-config=--create-file-if-not-exist=true
       - id: terraform_tflint
       - id: terraform_trivy
         args:
