@@ -25,6 +25,7 @@
 | Name | Type |
 |------|------|
 | [aws_kms_key.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
+| [aws_ami.ubuntu](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 
 ## Inputs
 
@@ -34,5 +35,7 @@
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_ami"></a> [ami](#output\_ami) | n/a |
 <!-- END_TF_DOCS -->
