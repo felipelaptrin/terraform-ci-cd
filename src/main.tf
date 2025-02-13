@@ -1,6 +1,6 @@
 
 resource "aws_s3_bucket" "this" {
-  bucket_prefix = "test-bucket-123"
+  bucket_prefix = "test-bucket"
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
