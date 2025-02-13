@@ -16,5 +16,5 @@ repos:
         files: src/
       - id: terraform_trivy
         args:
-          - --args=--severity HIGH
+          - --args=--severity HIGH,CRITICAL
         files: src/
