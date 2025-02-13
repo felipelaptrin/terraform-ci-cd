@@ -16,13 +16,15 @@
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_bucket-test"></a> [bucket-test](#module\_bucket-test) | ../modules/bucket | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_s3_bucket.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
+| [aws_kms_key.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 
 ## Inputs
 
