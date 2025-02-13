@@ -22,3 +22,11 @@ repos:
         args:
           - --args=--severity HIGH,CRITICAL
         files: src/
+  - repo: local
+    hooks:
+      - id: auto-stage-terraform-docs
+        name: Auto-stage Terraform Docs
+        language: system
+        entry: bash -c 'git diff --name-only | grep -E ".*.md$" | xargs git add'
+        always_run: true
+        stages: [pre-commit]
