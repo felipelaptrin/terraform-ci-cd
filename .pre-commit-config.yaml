@@ -11,6 +11,10 @@ repos:
           - --args=--check HIGH
         files: src/
       - id: terraform_docs
+        args:
+          - --hook-config=--add-to-existing-file=true
+          - --hook-config=--create-file-if-not-exist=true
+          - --hook-config=--use-standard-markers=true
         files: src/
       - id: terraform_tflint
         files: src/
