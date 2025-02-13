@@ -36,7 +36,7 @@ runs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: ${{ vars.IAM_ROLE_ARN_OIDC_GITHUB }}
+        role-to-assume: ${{ inputs.aws_role_arn }}
         role-session-name: Github-Actions
         aws-region: ${{ inputs.aws_region }}
 

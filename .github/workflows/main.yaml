@@ -10,10 +10,6 @@ permissions:
   contents: write
   pull-requests: write
 
-env:
-  DEV_TERRAFORM_ROLE: arn:aws:iam::664418972538:role/terraform-master-role
-  PROD_TERRAFORM_ROLE: arn:aws:iam::730335516527:role/GitHubActions
-
 jobs:
   ci:
     runs-on: ubuntu-latest
