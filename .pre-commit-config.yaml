@@ -15,4 +15,6 @@ repos:
       - id: terraform_tflint
         files: src/
       - id: terraform_trivy
+        args:
+          - --args=--severity HIGH
         files: src/
