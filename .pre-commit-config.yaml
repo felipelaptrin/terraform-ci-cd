@@ -22,10 +22,3 @@ repos:
         args:
           - --hook-config=--parallelism-limit=1
           - --args=--severity HIGH,CRITICAL
-  # - repo: local
-  #   hooks:
-  #     - id: terraform-update-lockfile
-  #       name: Ensure Terraform Lockfile Includes Multiple Platforms
-  #       language: system
-  #       entry: bash update-terraform-lockfile.sh
-  #       pass_filenames: false
