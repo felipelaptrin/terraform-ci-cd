@@ -12,6 +12,8 @@ repos:
           - --hook-config=--retry-once-with-cleanup=true
       - id: terraform_providers_lock
         args:
+          - --args=-platform=linux_amd64
+          - --args=-platform=darwin_arm64
           - --hook-config=--mode=only-check-is-current-lockfile-cross-platform
       - id: terraform_tflint
       - id: terraform_trivy
