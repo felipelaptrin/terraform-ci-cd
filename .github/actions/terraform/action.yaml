@@ -62,7 +62,7 @@ runs:
         working-directory: ${{ inputs.working_directory }}
         token: ${{ inputs.github_token }}
         planfile: .planfile
-        header: "[ - ${{ inputs.aws_region }}] Terraform Plan"
+        header: "[ ${{ inputs.environment }} - ${{ inputs.aws_region }}] Terraform Plan"
 
     - name: Terraform Apply
       if: ${{ inputs.action == 'apply' }}
