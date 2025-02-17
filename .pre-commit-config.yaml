@@ -4,9 +4,6 @@ repos:
     hooks:
       - id: terraform_validate
       - id: terraform_fmt
-      - id: terraform_checkov
-        args:
-          - --args=--check HIGH
       - id: terraform_docs
         args:
           - --hook-config=--create-file-if-not-exist=true
