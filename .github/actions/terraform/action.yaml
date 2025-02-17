@@ -47,13 +47,13 @@ runs:
     - name: Initialize terraform
       shell: bash
       working-directory: ${{ inputs.working_directory }}
-      run: terraform init -backend-config=${{ inputs.tfconfig_path }}
+      run: terraform init -backend-config=$GITHUB_WORKSPACE/${{ inputs.tfconfig_path }}
 
     - name: Terraform Plan
       if: ${{ inputs.action == 'plan' && github.ref != 'refs/heads/main' }}
       shell: bash
       working-directory: ${{ inputs.working_directory }}
-      run: terraform plan -var-file=${{ inputs.tfvars_path }} -out /tmp/.planfile
+      run: terraform plan -var-file=$GITHUB_WORKSPACE/${{ inputs.tfvars_path }} -out .planfile
 
     - name: Comment Terraform plan in PR
       if: ${{ inputs.action == 'plan' && github.ref != 'refs/heads/main' }}
@@ -68,4 +68,4 @@ runs:
       if: ${{ inputs.action == 'apply' }}
       shell: bash
       working-directory: ${{ inputs.working_directory }}
-      run: terraform apply -auto-approve -var-file=${{ inputs.tfvars_path }}
+      run: terraform apply -auto-approve -var-file=$GITHUB_WORKSPACE/${{ inputs.tfvars_path }}
