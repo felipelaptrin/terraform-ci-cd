@@ -7,6 +7,10 @@ inputs:
     required: true
   environment:
     description: "Account name that is being deployed. Allowed values: DEV, PROD"
+    required: true
+  working_directory:
+    description: Path to the directory containing the terraform files
+    default: src
   aws_region:
     type: string
     description: AWS region to use
@@ -30,10 +34,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install devbox
-      uses: jetify-com/devbox-install-action@v0.12.0
-      with:
-        enable-cache: "true"
+    - name: Install Mise
+      uses: jdx/mise-action@v2
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -44,22 +46,26 @@ runs:
 
     - name: Initialize terraform
       shell: bash
-      run: terraform init -backend-config=${{ inputs.tfconfig_path }}
+      working-directory: ${{ inputs.working_directory }}
+      run: terraform init -backend-config=$GITHUB_WORKSPACE/${{ inputs.tfconfig_path }}
 
     - name: Terraform Plan
       if: ${{ inputs.action == 'plan' && github.ref != 'refs/heads/main' }}
       shell: bash
-      run: terraform plan -var-file=${{ inputs.tfvars_path }}.tfvars -out .planfile
+      working-directory: ${{ inputs.working_directory }}
+      run: terraform plan -var-file=$GITHUB_WORKSPACE/${{ inputs.tfvars_path }} -out .planfile
 
     - name: Comment Terraform plan in PR
       if: ${{ inputs.action == 'plan' && github.ref != 'refs/heads/main' }}
       uses: borchero/terraform-plan-comment@v2
       with:
+        working-directory: ${{ inputs.working_directory }}
         token: ${{ inputs.github_token }}
         planfile: .planfile
-        header: "[ - ${{ inputs.aws_region }}] Terraform Plan"
+        header: "[ ${{ inputs.environment }} - ${{ inputs.aws_region }}] Terraform Plan"
 
     - name: Terraform Apply
       if: ${{ inputs.action == 'apply' }}
       shell: bash
-      run: terraform apply -auto-approve -var-file=${{ inputs.tfvars_path }}
+      working-directory: ${{ inputs.working_directory }}
+      run: terraform apply -auto-approve -var-file=$GITHUB_WORKSPACE/${{ inputs.tfvars_path }}
