@@ -13,8 +13,10 @@ repos:
       - id: terraform_providers_lock
         args:
           - --args=-platform=linux_amd64
+          - --args=-platform=linux_arm64
           - --args=-platform=darwin_arm64
-          - --hook-config=--mode=only-check-is-current-lockfile-cross-platform
+          - --args=-platform=darwin_amd64
+          - --hook-config=--mode=always-regenerate-lockfile
       - id: terraform_tflint
       - id: terraform_trivy
         args:
