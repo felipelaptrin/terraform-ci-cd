@@ -6,16 +6,22 @@ repos:
       - id: terraform_docs
         args:
           - --hook-config=--create-file-if-not-exist=true
+          - "--args=--lockfile=false"
       - id: terraform_validate
+        args:
+          - --hook-config=--retry-once-with-cleanup=true
+      - id: terraform_providers_lock
+        args:
+          - --hook-config=--mode=only-check-is-current-lockfile-cross-platform
       - id: terraform_tflint
       - id: terraform_trivy
         args:
           - --hook-config=--parallelism-limit=1
           - --args=--severity HIGH,CRITICAL
-  - repo: local
-    hooks:
-      - id: terraform-update-lockfile
-        name: Ensure Terraform Lockfile Includes Multiple Platforms
-        language: system
-        entry: bash update-terraform-lockfile.sh
-        pass_filenames: false
+  # - repo: local
+  #   hooks:
+  #     - id: terraform-update-lockfile
+  #       name: Ensure Terraform Lockfile Includes Multiple Platforms
+  #       language: system
+  #       entry: bash update-terraform-lockfile.sh
+  #       pass_filenames: false
