@@ -10,4 +10,5 @@ repos:
       - id: terraform_tflint
       - id: terraform_trivy
         args:
+          - --hook-config=--parallelism-limit=1
           - --args=--severity HIGH,CRITICAL
