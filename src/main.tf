@@ -8,3 +8,8 @@ module "bucket-test" {
   bucket_name = "test"
   kms_key_arn = aws_kms_key.s3.arn
 }
+
+resource "aws_sqs_queue" "terraform_queue" {
+  name                    = "test"
+  sqs_managed_sse_enabled = true
+}
