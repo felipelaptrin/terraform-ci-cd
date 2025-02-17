@@ -1,8 +1,4 @@
 repos:
-  - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.25
-    hooks:
-      - id: terraform-validate
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.97.3
     hooks:
@@ -10,7 +6,7 @@ repos:
       - id: terraform_docs
         args:
           - --hook-config=--create-file-if-not-exist=true
-      # - id: terraform_validate
+      - id: terraform_validate
       - id: terraform_tflint
       - id: terraform_trivy
         args:
