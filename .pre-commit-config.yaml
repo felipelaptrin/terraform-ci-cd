@@ -7,6 +7,8 @@ repos:
         args:
           - --hook-config=--create-file-if-not-exist=true
       - id: terraform_validate
+        args:
+          - --hook-config=--parallelism-limit=1
       - id: terraform_tflint
       - id: terraform_trivy
         args:
