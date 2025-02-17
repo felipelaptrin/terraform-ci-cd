@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   ci:
+    if: github.event_name == 'pull_request' && github.base_ref != 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -59,7 +60,7 @@ jobs:
       - name: Terraform Apply
         uses: ./.github/actions/terraform
         with:
-          action: plan
+          action: apply
           environment: DEV
           aws_region: us-east-1
           tfconfig_path: config/dev.hcl
@@ -88,6 +89,7 @@ jobs:
 
   apply-prod-us-east-1:
     needs:
+      - apply-dev-us-east-1
       - plan-prod-us-east-1
     name: "[PROD - us-east-1] Terraform Apply"
     runs-on: ubuntu-latest
@@ -102,7 +104,7 @@ jobs:
       - name: Terraform Apply
         uses: ./.github/actions/terraform
         with:
-          action: plan
+          action: apply
           environment: PROD
           aws_region: us-east-1
           tfconfig_path: config/prod.hcl
