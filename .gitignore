@@ -1,4 +1,8 @@
+.DS_Store
+
 .devbox
+
+modules/**/*.terraform.lock.hcl
 
 # Local .terraform directories
 **/.terraform/*
