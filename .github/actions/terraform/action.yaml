@@ -30,10 +30,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install devbox
-      uses: jetify-com/devbox-install-action@v0.12.0
-      with:
-        enable-cache: "true"
+    - name: Install Mise
+      uses: jdx/mise-action@v2
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -49,7 +47,7 @@ runs:
     - name: Terraform Plan
       if: ${{ inputs.action == 'plan' && github.ref != 'refs/heads/main' }}
       shell: bash
-      run: terraform plan -var-file=${{ inputs.tfvars_path }}.tfvars -out .planfile
+      run: terraform plan -var-file=${{ inputs.tfvars_path }} -out .planfile
 
     - name: Comment Terraform plan in PR
       if: ${{ inputs.action == 'plan' && github.ref != 'refs/heads/main' }}

@@ -23,88 +23,88 @@ jobs:
       - name: Run Pre-Commit
         run: pre-commit run --all-files
 
-  # plan-dev-us-east-1:
-  #   name: "[DEV - us-east-1] Terraform Plan"
-  #   runs-on: ubuntu-latest
+  plan-dev-us-east-1:
+    name: "[DEV - us-east-1] Terraform Plan"
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Terraform Plan
-  #       uses: ./.github/actions/terraform
-  #       with:
-  #         action: plan
-  #         environment: DEV
-  #         aws_region: us-east-1
-  #         tfconfig_path: config/dev.hcl
-  #         tfvars_path: vars/dev/us-east-1.tfvars
-  #         aws_role_arn: ${{ env.DEV_TERRAFORM_ROLE }}
-  #         github_token: ${{ github.token }}
+      - name: Terraform Plan
+        uses: ./.github/actions/terraform
+        with:
+          action: plan
+          environment: DEV
+          aws_region: us-east-1
+          tfconfig_path: config/dev.hcl
+          tfvars_path: vars/dev/us-east-1.tfvars
+          aws_role_arn: ${{ env.DEV_TERRAFORM_ROLE }}
+          github_token: ${{ github.token }}
 
-  # apply-dev-us-east-1:
-  #   needs:
-  #     - plan-dev-us-east-1
-  #   name: "[DEV - us-east-1] Terraform Apply"
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-  #   environment:
-  #     name: dev
+  apply-dev-us-east-1:
+    needs:
+      - plan-dev-us-east-1
+    name: "[DEV - us-east-1] Terraform Apply"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: dev
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Terraform Apply
-  #       uses: ./.github/actions/terraform
-  #       with:
-  #         action: plan
-  #         environment: DEV
-  #         aws_region: us-east-1
-  #         tfconfig_path: config/dev.hcl
-  #         tfvars_path: vars/dev/us-east-1.tfvars
-  #         aws_role_arn: ${{ env.DEV_TERRAFORM_ROLE }}
-  #         github_token: ${{ github.token }}
+      - name: Terraform Apply
+        uses: ./.github/actions/terraform
+        with:
+          action: plan
+          environment: DEV
+          aws_region: us-east-1
+          tfconfig_path: config/dev.hcl
+          tfvars_path: vars/dev/us-east-1.tfvars
+          aws_role_arn: ${{ env.DEV_TERRAFORM_ROLE }}
+          github_token: ${{ github.token }}
 
-  # plan-prod-us-east-1:
-  #   name: "[PROD - us-east-1] Terraform Plan"
-  #   runs-on: ubuntu-latest
+  plan-prod-us-east-1:
+    name: "[PROD - us-east-1] Terraform Plan"
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Terraform Plan
-  #       uses: ./.github/actions/terraform
-  #       with:
-  #         action: plan
-  #         environment: PROD
-  #         aws_region: us-east-1
-  #         tfconfig_path: config/prod.hcl
-  #         tfvars_path: vars/prod/us-east-1.tfvars
-  #         aws_role_arn: ${{ env.PROD_TERRAFORM_ROLE }}
-  #         github_token: ${{ github.token }}
+      - name: Terraform Plan
+        uses: ./.github/actions/terraform
+        with:
+          action: plan
+          environment: PROD
+          aws_region: us-east-1
+          tfconfig_path: config/prod.hcl
+          tfvars_path: vars/prod/us-east-1.tfvars
+          aws_role_arn: ${{ env.PROD_TERRAFORM_ROLE }}
+          github_token: ${{ github.token }}
 
-  # apply-prod-us-east-1:
-  #   needs:
-  #     - plan-prod-us-east-1
-  #   name: "[PROD - us-east-1] Terraform Apply"
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-  #   environment:
-  #     name: prod
+  apply-prod-us-east-1:
+    needs:
+      - plan-prod-us-east-1
+    name: "[PROD - us-east-1] Terraform Apply"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: prod
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Terraform Apply
-  #       uses: ./.github/actions/terraform
-  #       with:
-  #         action: plan
-  #         environment: PROD
-  #         aws_region: us-east-1
-  #         tfconfig_path: config/prod.hcl
-  #         tfvars_path: vars/prod/us-east-1.tfvars
-  #         aws_role_arn: ${{ env.PROD_TERRAFORM_ROLE }}
-  #         github_token: ${{ github.token }}
+      - name: Terraform Apply
+        uses: ./.github/actions/terraform
+        with:
+          action: plan
+          environment: PROD
+          aws_region: us-east-1
+          tfconfig_path: config/prod.hcl
+          tfvars_path: vars/prod/us-east-1.tfvars
+          aws_role_arn: ${{ env.PROD_TERRAFORM_ROLE }}
+          github_token: ${{ github.token }}
