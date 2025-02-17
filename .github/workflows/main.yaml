@@ -39,7 +39,7 @@ jobs:
           aws_region: us-east-1
           tfconfig_path: config/dev.hcl
           tfvars_path: vars/dev/us-east-1.tfvars
-          aws_role_arn: ${{ env.DEV_TERRAFORM_ROLE }}
+          aws_role_arn: ${{ vars.DEV_TERRAFORM_ROLE }}
           github_token: ${{ github.token }}
 
   apply-dev-us-east-1:
@@ -63,7 +63,7 @@ jobs:
           aws_region: us-east-1
           tfconfig_path: config/dev.hcl
           tfvars_path: vars/dev/us-east-1.tfvars
-          aws_role_arn: ${{ env.DEV_TERRAFORM_ROLE }}
+          aws_role_arn: ${{ vars.DEV_TERRAFORM_ROLE }}
           github_token: ${{ github.token }}
 
   plan-prod-us-east-1:
@@ -82,7 +82,7 @@ jobs:
           aws_region: us-east-1
           tfconfig_path: config/prod.hcl
           tfvars_path: vars/prod/us-east-1.tfvars
-          aws_role_arn: ${{ env.PROD_TERRAFORM_ROLE }}
+          aws_role_arn: ${{ vars.PROD_TERRAFORM_ROLE }}
           github_token: ${{ github.token }}
 
   apply-prod-us-east-1:
@@ -106,5 +106,5 @@ jobs:
           aws_region: us-east-1
           tfconfig_path: config/prod.hcl
           tfvars_path: vars/prod/us-east-1.tfvars
-          aws_role_arn: ${{ env.PROD_TERRAFORM_ROLE }}
+          aws_role_arn: ${{ vars.PROD_TERRAFORM_ROLE }}
           github_token: ${{ github.token }}
