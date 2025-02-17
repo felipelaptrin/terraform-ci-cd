@@ -17,11 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install devbox
-        uses: jetify-com/devbox-install-action@v0.12.0
+      - name: Install Mise
+        uses: jdx/mise-action@v2
 
       - name: Run Pre-Commit
-        run: devbox run -- pre-commit run --all-files
+        run: pre-commit run --all-files
 
   # plan-dev-us-east-1:
   #   name: "[DEV - us-east-1] Terraform Plan"
