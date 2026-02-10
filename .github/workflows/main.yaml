@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v3
 
       - name: Run Pre-Commit
         run: pre-commit run --all-files
@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Terraform Plan
         uses: ./.github/actions/terraform
@@ -39,8 +39,8 @@ jobs:
           action: plan
           environment: DEV
           aws_region: us-east-1
-          tfconfig_path: config/dev.hcl
-          tfvars_path: vars/dev/us-east-1.tfvars
+          tfconfig_path: config/dev/backend.hcl
+          tfvars_path: config/dev/us-east-1.tfvars
           aws_role_arn: ${{ vars.DEV_TERRAFORM_ROLE }}
           github_token: ${{ github.token }}
 
@@ -55,7 +55,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Terraform Apply
         uses: ./.github/actions/terraform
@@ -63,8 +63,8 @@ jobs:
           action: apply
           environment: DEV
           aws_region: us-east-1
-          tfconfig_path: config/dev.hcl
-          tfvars_path: vars/dev/us-east-1.tfvars
+          tfconfig_path: config/dev/backend.hcl
+          tfvars_path: config/dev/us-east-1.tfvars
           aws_role_arn: ${{ vars.DEV_TERRAFORM_ROLE }}
           github_token: ${{ github.token }}
 
@@ -74,7 +74,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Terraform Plan
         uses: ./.github/actions/terraform
@@ -82,8 +82,8 @@ jobs:
           action: plan
           environment: PROD
           aws_region: us-east-1
-          tfconfig_path: config/prod.hcl
-          tfvars_path: vars/prod/us-east-1.tfvars
+          tfconfig_path: config/prod/backend.hcl
+          tfvars_path: config/prod/us-east-1.tfvars
           aws_role_arn: ${{ vars.PROD_TERRAFORM_ROLE }}
           github_token: ${{ github.token }}
 
@@ -99,7 +99,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Terraform Apply
         uses: ./.github/actions/terraform
@@ -107,7 +107,7 @@ jobs:
           action: apply
           environment: PROD
           aws_region: us-east-1
-          tfconfig_path: config/prod.hcl
-          tfvars_path: vars/prod/us-east-1.tfvars
+          tfconfig_path: config/prod/backend.hcl
+          tfvars_path: config/prod/us-east-1.tfvars
           aws_role_arn: ${{ vars.PROD_TERRAFORM_ROLE }}
           github_token: ${{ github.token }}
