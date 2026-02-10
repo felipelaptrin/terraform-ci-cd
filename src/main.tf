@@ -1,5 +1,5 @@
 resource "aws_sqs_queue" "terraform_queue" {
-  name                    = "test"
+  name                    = "terraform-cicd"
   sqs_managed_sse_enabled = true
 }
 
