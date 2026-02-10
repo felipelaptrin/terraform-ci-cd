@@ -1,0 +1,6 @@
+misconfigurations:
+  - id: AVD-AWS-0088
+    statement: Bucket does not have encryption enabled
+    paths:
+      - src/main.tf
+      - main.tf
