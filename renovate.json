@@ -16,10 +16,7 @@
         "terraform",
         "github-actions"
       ],
-      "groupName": "dependencies",
-      "schedule": [
-        "on monday"
-      ]
+      "groupName": "dependencies"
     }
   ]
 }
