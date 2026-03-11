@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "timezone": "America/Sao_Paulo",
+  "enabledManagers": ["mise", "terraform", "github-actions"],
+  "packageRules": [
+    {
+      "matchManagers": ["mise", "terraform", "github-actions"],
+      "groupName": "dependencies",
+      "schedule": ["after 4pm on monday", "before 5pm on monday"]
+    }
+  ]
+}
