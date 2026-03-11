@@ -78,6 +78,8 @@ Use conventional commits:
 
 Example: `feat(modules): add RDS module with encryption and multi-AZ support`
 
+Always run `mise run pre-commit` before making a commit.
+
 ## Escalation & Clarification
 
 If requirements are ambiguous:
