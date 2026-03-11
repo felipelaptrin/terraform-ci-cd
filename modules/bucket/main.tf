@@ -1,6 +1,6 @@
 
 resource "aws_s3_bucket" "this" {
-  bucket_prefix = var.bucket_name
+  bucket = var.bucket_name
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
