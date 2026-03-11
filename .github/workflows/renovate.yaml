@@ -19,6 +19,6 @@ jobs:
           app-id: ${{ secrets.RENOVATE_APP_ID }}
           private-key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
 
-      - uses: renovatebot/github-action@v40
+      - uses: renovatebot/github-action@v46.1.4
         with:
           token: ${{ steps.app-token.outputs.token }}
