@@ -57,7 +57,7 @@ runs:
 
     - name: Comment Terraform plan in PR
       if: ${{ inputs.action == 'plan' && github.ref != 'refs/heads/main' }}
-      uses: borchero/terraform-plan-comment@v2
+      uses: borchero/terraform-plan-comment@v3
       with:
         working-directory: ${{ inputs.working_directory }}
         token: ${{ inputs.github_token }}
