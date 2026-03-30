@@ -27,5 +27,5 @@ description = "Install pre-commit"
 run = 'pre-commit install'
 
 [tasks.pre-commit]
-description = "Run pre-commit in all files"
+description = "Run pre-commit hook on all files"
 run = 'pre-commit run -a'
