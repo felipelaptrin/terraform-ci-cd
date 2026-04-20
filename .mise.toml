@@ -13,12 +13,12 @@ run = "terraform init -backend-config=../config/dev/backend.hcl"
 dir = "src"
 
 [tasks.plan-dev]
-description = "Plan Terraform"
+description = "Plan Terraform to Dev environment"
 run = 'terraform plan -var-file="../config/dev/us-east-1.tfvars"'
 dir = "src"
 
 [tasks.apply-dev]
-description = "Plan Terraform"
+description = "Apply (Deploy) Terraform to Dev environment"
 run = 'terraform apply -var-file="../config/dev/us-east-1.tfvars"'
 dir = "src"
 
