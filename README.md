@@ -2,10 +2,48 @@
 
 This repository is a demo repository for my [blog post](https://felipetrindade.com/terraform-ci-cd).
 
-## Development Environment
+## Development Environment Tools
 [Mise](https://mise.jdx.dev/configuration.html) is being used as a tool to set up a uniform development environment for all the developers in this project. All the needed dependencies to run the project are listed in the `.mise.toml` file, which becomes very handy because:
 - **Dependencies as declarative**: The dependencies file serves as a manifest to list all the tools (and versions) required to run the project
 - **Source of truth** The file serves as the source of truth for the repository, i.e. it can be reused in the CI/CD too, a single modification in this file affects everyone, everywhere. It's common to see CI/CD that hardcode the version of Terraform to install, this approach removes this.
+
+## Terraform Local Environment
+
+Run Terraform locally using [Floci](https://floci.io) as an AWS emulator.
+
+### Steps
+
+**1. Start Floci (AWS emulator)**
+
+```bash
+mise run floci-up
+```
+
+This starts the Floci Docker container and creates the S3 bucket used for Terraform state.
+
+**2. Initialize Terraform**
+
+```bash
+mise run init-local
+```
+
+**3. Plan**
+
+```bash
+mise run plan-local
+```
+
+**4. Apply**
+
+```bash
+mise run apply-local
+```
+
+**5. Tear down**
+
+```bash
+mise run floci-down
+```
 
 ## GitHub Actions
 GitHub Actions will be used as the tool to run the CI/CD pipeline.
