@@ -7,14 +7,29 @@ trivy = "0.70.0"
 jq = "1.8.1"
 
 
+[tasks.init-local]
+description = "Initilize Local Terraform"
+run = "AWS_ENDPOINT_URL=http://localhost:4566 terraform init -backend-config=../config/local/backend.hcl"
+dir = "src"
+
 [tasks.init-dev]
-description = "Initilize Terraform"
+description = "Initilize Dev Terraform"
 run = "terraform init -backend-config=../config/dev/backend.hcl"
+dir = "src"
+
+[tasks.plan-local]
+description = "Plan Terraform to Local environment"
+run = 'AWS_ENDPOINT_URL=http://localhost:4566 terraform plan -var-file="../config/local/us-east-1.tfvars"'
 dir = "src"
 
 [tasks.plan-dev]
 description = "Plan Terraform to Dev environment"
 run = 'terraform plan -var-file="../config/dev/us-east-1.tfvars"'
+dir = "src"
+
+[tasks.apply-local]
+description = "Apply (Deploy) Terraform to Local environment"
+run = 'AWS_ENDPOINT_URL=http://localhost:4566 terraform apply -var-file="../config/local/us-east-1.tfvars"'
 dir = "src"
 
 [tasks.apply-dev]
@@ -29,3 +44,23 @@ run = 'pre-commit install'
 [tasks.pre-commit]
 description = "Run pre-commit hook on all files"
 run = 'pre-commit run -a'
+
+[tasks.floci-up]
+description = "Deploy Floci as local AWS emulator and bootstrap the Terraform State S3 Bucket"
+run = '''
+echo '[INFO] Initializing Floci using Docker Compose'
+docker compose up -d
+echo '[INFO] Waiting 5s before creating S3 Bucket for local environment'
+sleep 5
+AWS_ENDPOINT_URL=http://localhost:4566 AWS_SECRET_ACCESS_KEY=test AWS_ACCESS_KEY_ID=test aws s3api create-bucket \
+  --bucket terraform-states-local \
+  --region us-east-1 \
+  --output text >/dev/null 2>&1|| echo "Terraform States bucket might already exist"
+'''
+
+[tasks.floci-down]
+description = "Deploy Floci as local AWS emulator and bootstrap the Terraform State S3 Bucket"
+run = '''
+echo '[INFO] Decommissioning Floci'
+docker compose down
+'''
