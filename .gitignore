@@ -1,6 +1,6 @@
 .DS_Store
 
-.devbox
+floci-data
 
 modules/**/*.terraform.lock.hcl
 
