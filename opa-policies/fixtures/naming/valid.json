@@ -1,0 +1,34 @@
+{
+  "resource_changes": [
+    {
+      "address": "aws_sqs_queue.terraform_queue",
+      "mode": "managed",
+      "type": "aws_sqs_queue",
+      "change": {
+        "actions": ["create"],
+        "after": {
+          "name": "dev-terraform-cicd",
+          "tags_all": {
+            "Environment": "dev",
+            "Project": "Terraform CI/CD"
+          }
+        }
+      }
+    },
+    {
+      "address": "module.bucket.aws_s3_bucket.this",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "change": {
+        "actions": ["create"],
+        "after": {
+          "bucket": "dev-terraform-cd-ci-demo-123456789012",
+          "tags_all": {
+            "Environment": "dev",
+            "Project": "Terraform CI/CD"
+          }
+        }
+      }
+    }
+  ]
+}

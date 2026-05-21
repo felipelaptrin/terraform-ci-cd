@@ -1,0 +1,19 @@
+{
+  "resource_changes": [
+    {
+      "address": "aws_sqs_queue.terraform_queue",
+      "mode": "managed",
+      "type": "aws_sqs_queue",
+      "change": {
+        "actions": ["create"],
+        "after": {
+          "name": "my-queue",
+          "tags_all": {
+            "Environment": "dev",
+            "Project": "Terraform CI/CD"
+          }
+        }
+      }
+    }
+  ]
+}
