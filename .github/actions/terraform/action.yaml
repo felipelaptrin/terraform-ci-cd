@@ -64,6 +64,14 @@ runs:
         planfile: .planfile
         header: "[ ${{ inputs.environment }} - ${{ inputs.aws_region }}] Terraform Plan"
 
+    - name: Run OPA policies
+      if: ${{ inputs.action == 'plan' && github.ref != 'refs/heads/main' }}
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
+      run: |
+        terraform show -json .planfile > /tmp/plan.json
+        conftest test /tmp/plan.json -p $GITHUB_WORKSPACE/opa-policies/patterns/ -p $GITHUB_WORKSPACE/opa-policies/shared/ --all-namespaces -o table
+
     - name: Terraform Apply
       if: ${{ inputs.action == 'apply' }}
       shell: bash

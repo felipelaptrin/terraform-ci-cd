@@ -22,6 +22,14 @@ repos:
           - --hook-config=--parallelism-limit=1
           - --args=--severity HIGH,CRITICAL
           - --args=--ignorefile=__GIT_WORKING_DIR__/.trivyignore.yaml
+  - repo: local
+    hooks:
+      - id: opa-test
+        name: OPA Policy Tests
+        language: system
+        entry: opa test opa-policies/shared/ opa-policies/patterns/ opa-policies/tests/ -v
+        pass_filenames: false
+        files: ^opa-policies/
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
