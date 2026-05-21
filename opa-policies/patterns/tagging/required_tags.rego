@@ -11,7 +11,11 @@ deny contains msg if {
   resource.mode == "managed"
   utils.is_create_or_update(resource.change.actions)
 
-  tags := object.get(resource.change.after, "tags_all", {})
+  # Directly access tags_all — if the key is absent (non-taggable resource types
+  # like aws_s3_bucket_policy omit it entirely from the plan JSON), this expression
+  # is undefined and the rule body fails, producing no deny. No blocklist needed.
+  tags := resource.change.after.tags_all
+
   missing := {tag | some tag in required_tags; not tag_present(tags, tag)}
   count(missing) > 0
 

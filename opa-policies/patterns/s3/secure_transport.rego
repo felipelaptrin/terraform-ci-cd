@@ -14,9 +14,13 @@ deny contains msg if {
   msg := sprintf("S3 bucket '%s' must have an aws_s3_bucket_policy enforcing SecureTransport (HTTPS only)", [bucket_name])
 }
 
-has_secure_transport_policy(bucket_name) if {
+# Check any managed aws_s3_bucket_policy regardless of action (create, update, or
+# no-op). A bucket_policy that already exists in state but has no changes (no-op)
+# still satisfies the requirement — we just need it to be present with the right content.
+has_secure_transport_policy(_) if {
   policy_resource := input.resource_changes[_]
-  utils.is_resource_of_type(policy_resource, "aws_s3_bucket_policy")
+  policy_resource.mode == "managed"
+  policy_resource.type == "aws_s3_bucket_policy"
 
   policy_json := policy_resource.change.after.policy
   policy := json.unmarshal(policy_json)
