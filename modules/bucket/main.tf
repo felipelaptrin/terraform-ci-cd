@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "this" {
 }
 
 resource "aws_s3_bucket_policy" "this" {
-  bucket = aws_s3_bucket.this.id
+  bucket = aws_s3_bucket.this.bucket
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -14,8 +14,8 @@ resource "aws_s3_bucket_policy" "this" {
         Principal = "*"
         Action    = "s3:*"
         Resource = [
-          aws_s3_bucket.this.arn,
-          "${aws_s3_bucket.this.arn}/*"
+          "arn:aws:s3:::${aws_s3_bucket.this.bucket}",
+          "arn:aws:s3:::${aws_s3_bucket.this.bucket}/*"
         ]
         Condition = {
           Bool = {

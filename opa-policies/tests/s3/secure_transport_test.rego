@@ -1,8 +1,9 @@
-package terraform.s3_test
+package compliance.amazon_s3.ssl_test
 
-import rego.v1
+import future.keywords.if
+import future.keywords.in
 
-import data.terraform.s3
+import data.compliance.amazon_s3.ssl
 
 test_valid_bucket_with_policy if {
   inp := {
@@ -36,7 +37,7 @@ test_valid_bucket_with_policy if {
       },
     ],
   }
-  count(s3.deny) == 0 with input as inp
+  count(ssl.deny) == 0 with input as inp
 }
 
 test_bucket_missing_policy if {
@@ -57,8 +58,55 @@ test_bucket_missing_policy if {
       },
     }],
   }
-  result := s3.deny with input as inp
+  result := ssl.deny with input as inp
   count(result) > 0
   some msg in result
-  contains(msg, "must have an aws_s3_bucket_policy enforcing SecureTransport")
+  contains(msg, "has no bucket policy")
+}
+
+test_bucket_policy_missing_secure_transport if {
+  inp := {
+    "resource_changes": [
+      {
+        "address": "module.bucket.aws_s3_bucket.this",
+        "mode": "managed",
+        "type": "aws_s3_bucket",
+        "change": {
+          "actions": ["create"],
+          "after": {"bucket": "dev-terraform-cd-ci-demo-123456789012"},
+        },
+      },
+      {
+        "address": "module.bucket.aws_s3_bucket_policy.this",
+        "mode": "managed",
+        "type": "aws_s3_bucket_policy",
+        "change": {
+          "actions": ["create"],
+          "after": {
+            "bucket": "dev-terraform-cd-ci-demo-123456789012",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"s3:GetObject\",\"Resource\":\"arn:aws:s3:::dev-terraform-cd-ci-demo-123456789012/*\"}]}",
+          },
+        },
+      },
+    ],
+  }
+  result := ssl.deny with input as inp
+  count(result) > 0
+  some msg in result
+  contains(msg, "does not enforce SSL/TLS")
+}
+
+test_noop_bucket_no_deny if {
+  inp := {
+    "resource_changes": [{
+      "address": "module.bucket.aws_s3_bucket.this",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "change": {
+        "actions": ["no-op"],
+        "after": {"bucket": "dev-terraform-cd-ci-demo-123456789012"},
+      },
+    }],
+  }
+  count(ssl.deny) == 0 with input as inp
 }

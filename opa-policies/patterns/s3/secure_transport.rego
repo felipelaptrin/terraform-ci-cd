@@ -1,31 +1,56 @@
-package terraform.s3
+package compliance.amazon_s3.ssl
 
-import rego.v1
+import future.keywords.contains
+import future.keywords.if
+import future.keywords.in
 
-import data.terraform.utils
-
+# Deny: S3 bucket policy missing SecureTransport deny statement
 deny contains msg if {
   resource := input.resource_changes[_]
-  utils.is_resource_of_type(resource, "aws_s3_bucket")
+  resource.type == "aws_s3_bucket_policy"
+  is_create_or_update(resource.change.actions)
 
-  bucket_name := resource.change.after.bucket
-  not has_secure_transport_policy(bucket_name)
+  policy_value := resource.change.after.policy
+  policy := json.unmarshal(policy_value)
 
-  msg := sprintf("S3 bucket '%s' must have an aws_s3_bucket_policy enforcing SecureTransport (HTTPS only)", [bucket_name])
+  not has_secure_transport_deny(policy)
+
+  msg := sprintf(
+    "[S3-OPA-1] Resource '%s' does not enforce SSL/TLS. Bucket policy must include a Deny statement with Condition Bool aws:SecureTransport set to \"false\".",
+    [resource.address]
+  )
 }
 
-# Check any managed aws_s3_bucket_policy regardless of action (create, update, or
-# no-op). A bucket_policy that already exists in state but has no changes (no-op)
-# still satisfies the requirement — we just need it to be present with the right content.
-has_secure_transport_policy(_) if {
-  policy_resource := input.resource_changes[_]
-  policy_resource.mode == "managed"
-  policy_resource.type == "aws_s3_bucket_policy"
+# Deny: S3 bucket created without any corresponding bucket policy
+deny contains msg if {
+  resource := input.resource_changes[_]
+  resource.type == "aws_s3_bucket"
+  is_create_or_update(resource.change.actions)
 
-  policy_json := policy_resource.change.after.policy
-  policy := json.unmarshal(policy_json)
+  bucket_name := resource.change.after.bucket
+  not has_bucket_policy(bucket_name)
 
-  statement := policy.Statement[_]
-  statement.Effect == "Deny"
-  statement.Condition.Bool["aws:SecureTransport"] == "false"
+  msg := sprintf(
+    "[S3-OPA-1] Resource '%s' (bucket '%s') has no bucket policy. A bucket policy with a Deny statement for aws:SecureTransport \"false\" is required.",
+    [resource.address, bucket_name]
+  )
+}
+
+is_create_or_update(actions) if { actions[_] == "create" }
+is_create_or_update(actions) if { actions[_] == "update" }
+
+has_bucket_policy(bucket_name) if {
+  bp := input.resource_changes[_]
+  bp.type == "aws_s3_bucket_policy"
+  is_create_or_update(bp.change.actions)
+  bp.change.after.bucket == bucket_name
+}
+
+has_secure_transport_deny(policy) if {
+  stmt := policy.Statement[_]
+  stmt.Effect == "Deny"
+  stmt.Condition.Bool["aws:SecureTransport"] == "false"
+  stmt.Principal == "*"
+  action := stmt.Action
+  action == "s3:*"
 }
