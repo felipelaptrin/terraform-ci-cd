@@ -1,8 +1,9 @@
-package terraform.tagging_test
+package compliance.general.tagging_test
 
-import rego.v1
+import future.keywords.if
+import future.keywords.in
 
-import data.terraform.tagging
+import data.compliance.general.tagging
 
 test_valid_tags if {
   inp := {
@@ -43,6 +44,6 @@ test_missing_tags if {
   result := tagging.deny with input as inp
   count(result) > 0
   some msg in result
-  contains(msg, "missing required tag(s)")
+  contains(msg, "[TAG-OPA-1]")
   contains(msg, "Environment")
 }

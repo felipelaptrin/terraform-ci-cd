@@ -1,6 +1,8 @@
-package terraform.regions
+package compliance.general.regions
 
-import rego.v1
+import future.keywords.contains
+import future.keywords.if
+import future.keywords.in
 
 approved_regions := ["us-east-1"]
 
@@ -9,7 +11,10 @@ deny contains msg if {
   region := provider.expressions.region.constant_value
   not region_approved(region)
 
-  msg := sprintf("AWS provider region '%s' is not in the approved list: %s", [region, concat(", ", approved_regions)])
+  msg := sprintf(
+    "[REGION-OPA-1] AWS provider region '%s' is not in the approved list: %s",
+    [region, concat(", ", approved_regions)]
+  )
 }
 
 region_approved(region) if {

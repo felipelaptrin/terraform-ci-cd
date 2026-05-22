@@ -1,8 +1,9 @@
-package terraform.naming_test
+package compliance.general.naming_test
 
-import rego.v1
+import future.keywords.if
+import future.keywords.in
 
-import data.terraform.naming
+import data.compliance.general.naming
 
 test_valid_name if {
   inp := {
@@ -63,5 +64,6 @@ test_missing_prefix if {
   result := naming.deny with input as inp
   count(result) > 0
   some msg in result
+  contains(msg, "[NAME-OPA-1]")
   contains(msg, "must start with the environment prefix")
 }
