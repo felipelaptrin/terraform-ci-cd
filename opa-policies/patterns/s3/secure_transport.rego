@@ -39,18 +39,26 @@ deny contains msg if {
 is_create_or_update(actions) if { actions[_] == "create" }
 is_create_or_update(actions) if { actions[_] == "update" }
 
+# Match by bucket name when the field is known at plan time
 has_bucket_policy(bucket_name) if {
-  bp := input.resource_changes[_]
-  bp.type == "aws_s3_bucket_policy"
-  is_create_or_update(bp.change.actions)
-  bp.change.after.bucket == bucket_name
+  bucket_policy := input.resource_changes[_]
+  bucket_policy.type == "aws_s3_bucket_policy"
+  is_create_or_update(bucket_policy.change.actions)
+  bucket_policy.change.after.bucket == bucket_name
+}
+
+# Match when bucket field is null (computed, unknown at plan time for new resources)
+has_bucket_policy(_) if {
+  bucket_policy := input.resource_changes[_]
+  bucket_policy.type == "aws_s3_bucket_policy"
+  is_create_or_update(bucket_policy.change.actions)
+  bucket_policy.change.after.bucket == null
 }
 
 has_secure_transport_deny(policy) if {
-  stmt := policy.Statement[_]
-  stmt.Effect == "Deny"
-  stmt.Condition.Bool["aws:SecureTransport"] == "false"
-  stmt.Principal == "*"
-  action := stmt.Action
-  action == "s3:*"
+  statement := policy.Statement[_]
+  statement.Effect == "Deny"
+  statement.Condition.Bool["aws:SecureTransport"] == "false"
+  statement.Principal == "*"
+  statement.Action == "s3:*"
 }
