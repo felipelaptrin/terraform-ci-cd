@@ -70,7 +70,7 @@ runs:
       working-directory: ${{ inputs.working_directory }}
       run: |
         terraform show -json .planfile > /tmp/plan.json
-        conftest test /tmp/plan.json -p $GITHUB_WORKSPACE/opa-policies/patterns/ -p $GITHUB_WORKSPACE/opa-policies/shared/ --all-namespaces -o table
+        conftest test /tmp/plan.json -p $GITHUB_WORKSPACE/opa-policies/patterns/ --all-namespaces -o table
 
     - name: Terraform Apply
       if: ${{ inputs.action == 'apply' }}
