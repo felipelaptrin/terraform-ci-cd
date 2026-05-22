@@ -39,19 +39,17 @@ deny contains msg if {
 is_create_or_update(actions) if { actions[_] == "create" }
 is_create_or_update(actions) if { actions[_] == "update" }
 
-# Match by bucket name when the field is known at plan time
+# Check any aws_s3_bucket_policy in the plan regardless of action.
+# A no-op policy already exists in state and satisfies the requirement.
 has_bucket_policy(bucket_name) if {
   bucket_policy := input.resource_changes[_]
   bucket_policy.type == "aws_s3_bucket_policy"
-  is_create_or_update(bucket_policy.change.actions)
   bucket_policy.change.after.bucket == bucket_name
 }
 
-# Match when bucket field is null (computed, unknown at plan time for new resources)
 has_bucket_policy(_) if {
   bucket_policy := input.resource_changes[_]
   bucket_policy.type == "aws_s3_bucket_policy"
-  is_create_or_update(bucket_policy.change.actions)
   bucket_policy.change.after.bucket == null
 }
 
