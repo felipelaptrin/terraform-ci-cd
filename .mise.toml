@@ -1,5 +1,5 @@
 [tools]
-terraform = "1.15.4"
+terraform = "1.15.5"
 pre-commit = "4.6.0"
 terraform-docs = "0.24.0"
 tflint = "0.62.1"
