@@ -5,6 +5,8 @@ terraform-docs = "0.24.0"
 tflint = "0.63.1"
 trivy = "0.71.0"
 jq = "1.8.1"
+conftest = "0.68.2"
+opa = "1.16.2"
 
 
 [tasks.init-local]
@@ -35,6 +37,20 @@ dir = "src"
 [tasks.apply-dev]
 description = "Apply (Deploy) Terraform to Dev environment"
 run = 'terraform apply -var-file="../config/dev/us-east-1.tfvars"'
+dir = "src"
+
+[tasks.opa-check-local]
+description = "Validate Terraform plan against OPA policies using Floci (local)"
+run = '''
+echo '[INFO] Initializing Terraform for local environment'
+AWS_ENDPOINT_URL=http://localhost:4566 terraform init -backend-config=../config/local/backend.hcl -input=false > /dev/null
+echo '[INFO] Generating Terraform plan'
+AWS_ENDPOINT_URL=http://localhost:4566 terraform plan -var-file="../config/local/us-east-1.tfvars" -out .planfile -input=false > /dev/null
+echo '[INFO] Running OPA policies against plan'
+terraform show -json .planfile > /tmp/plan.json
+conftest test /tmp/plan.json -p ../opa-policies/patterns/ --all-namespaces -o table
+rm -f .planfile /tmp/plan.json
+'''
 dir = "src"
 
 [tasks.pre-commit-install]

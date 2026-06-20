@@ -1,0 +1,13 @@
+{
+  "configuration": {
+    "provider_config": {
+      "aws": {
+        "expressions": {
+          "region": {
+            "constant_value": "eu-west-1"
+          }
+        }
+      }
+    }
+  }
+}

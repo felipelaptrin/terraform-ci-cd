@@ -12,7 +12,8 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project = "Terraform CI/CD"
+      Environment = var.environment
+      Project     = "Terraform CI/CD"
     }
   }
 }

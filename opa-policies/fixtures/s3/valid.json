@@ -1,0 +1,31 @@
+{
+  "resource_changes": [
+    {
+      "address": "module.bucket.aws_s3_bucket.this",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "change": {
+        "actions": ["create"],
+        "after": {
+          "bucket": "dev-terraform-cd-ci-demo-123456789012",
+          "tags_all": {
+            "Environment": "dev",
+            "Project": "Terraform CI/CD"
+          }
+        }
+      }
+    },
+    {
+      "address": "module.bucket.aws_s3_bucket_policy.this",
+      "mode": "managed",
+      "type": "aws_s3_bucket_policy",
+      "change": {
+        "actions": ["create"],
+        "after": {
+          "bucket": "dev-terraform-cd-ci-demo-123456789012",
+          "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"DenyInsecureTransport\",\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:*\",\"Resource\":[\"arn:aws:s3:::dev-terraform-cd-ci-demo-123456789012\",\"arn:aws:s3:::dev-terraform-cd-ci-demo-123456789012/*\"],\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}]}"
+        }
+      }
+    }
+  ]
+}
