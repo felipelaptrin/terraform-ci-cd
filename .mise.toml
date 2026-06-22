@@ -1,10 +1,10 @@
 [tools]
-terraform = "1.15.5"
+terraform = "1.15.6"
 pre-commit = "4.6.0"
 terraform-docs = "0.24.0"
 tflint = "0.63.1"
-trivy = "0.71.0"
-jq = "1.8.1"
+trivy = "0.71.2"
+jq = "1.8.2"
 
 
 [tasks.init-local]
