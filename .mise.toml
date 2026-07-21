@@ -2,7 +2,7 @@
 terraform = "1.15.8"
 pre-commit = "4.6.0"
 terraform-docs = "0.24.0"
-tflint = "0.63.1"
+tflint = "0.64.0"
 trivy = "0.72.0"
 jq = "1.8.2"
 
