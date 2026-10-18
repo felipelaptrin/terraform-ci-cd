@@ -1,9 +1,9 @@
 [tools]
-terraform = "1.16.4"
-pre-commit = "4.6.2"
+terraform = "1.16.6"
+pre-commit = "4.7.0"
 terraform-docs = "0.24.0"
 tflint = "0.64.0"
-trivy = "0.74.0"
+trivy = "0.76.0"
 jq = "1.8.2"
 
 
